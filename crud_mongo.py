@@ -50,8 +50,8 @@ def read(collection_id, query_dicts=None, mode=DEBUG):
         else:
             docs = []
             for query_dict in query_dicts:
-                if _mongo_id in query_dict.keys():
-                    query_dict[_mongo_id] = ObjectId(query_dict[_mongo_id])
+                if ID in query_dict.keys():
+                    query_dict[ID] = ObjectId(query_dict[ID])
                 cursor = db[collection_id].find(query_dict)
                 docs.extend(extract_docs(cursor))
             return docs
