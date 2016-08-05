@@ -5,5 +5,4 @@ import FlaskWebProject
 
 
 def import_db_access_module():
-    module_name = app.config[DB_ACCESS_MODULE]
-    return importlib.import_module('FlaskWebProject.steershared.' + module_name)
+    return importlib.import_module(app.config[DB_ACCESS_MODULE])
