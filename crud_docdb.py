@@ -1,6 +1,6 @@
 from FlaskWebProject import app
 from FlaskWebProject.data.data_consts import ID, DEBUG
-from db_consts import DB_ID, DOCUMENTDB_HOST, DOCUMENTDB_MASTER_KEY
+from shared_consts import DB_ID, DOCUMENTDB_HOST, DOCUMENTDB_MASTER_KEY
 import pydocumentdb.errors as errors
 import pydocumentdb.document_client as document_client
 

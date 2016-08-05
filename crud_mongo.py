@@ -1,6 +1,6 @@
 from FlaskWebProject import app
 from FlaskWebProject.data.data_consts import ID, DEBUG
-from db_consts import MONGO_DB, DB_ID
+from shared_consts import MONGO_DB, DB_ID
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
