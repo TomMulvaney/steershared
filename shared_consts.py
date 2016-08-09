@@ -32,6 +32,7 @@ CONTENT_TYPE = 'content_type'
 # Collections
 RECOMMENDATIONS = 'recommendations'
 CONSUMERS = 'consumers'
+INTERACTIONS = 'interactions'
 RETAILERS = 'retailers'
 RETAILER_USERS = 'retailer_users'
 TOWN_USERS = 'town_users'
