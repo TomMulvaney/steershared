@@ -1,3 +1,5 @@
-import db_helpers
-import crud_mongo
-import crud_docdb
+import FlaskWebProject.steershared.dbconnectors.db_helpers
+import FlaskWebProject.steershared.dbconnectors.mongodb_connector
+from FlaskWebProject.steershared.dbconnectors import docdb_connector, mongodb_connector, db_helpers
+
+

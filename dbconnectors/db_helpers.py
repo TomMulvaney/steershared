@@ -1,5 +1,5 @@
 from FlaskWebProject import app
-from shared_consts import DB_ACCESS_MODULE
+from FlaskWebProject.steershared.shared_consts import DB_ACCESS_MODULE
 import importlib
 
 
