@@ -1,5 +1,4 @@
-import FlaskWebProject.steershared.dbconnectors.db_helpers
-import FlaskWebProject.steershared.dbconnectors.mongodb_connector
-from FlaskWebProject.steershared.dbconnectors import docdb_connector, mongodb_connector, db_helpers
-
-
+import dbconnectors
+import sentianalysis
+import textclassifier
+import shared_consts

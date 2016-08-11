@@ -48,11 +48,12 @@ THIRD_PARTY_INTERACTIONS = 'consumer_third_party_interactions'
 CALENDAR_EVENTS = 'consumer_calendar_events'
 PRODUCTS = 'products'
 OFFERS = 'offers'
+RATINGS = 'ratings'
 
 
 COLLECTIONS = [RECOMMENDATIONS, CONSUMERS, RETAILERS, RETAILER_USERS, TOWN_USERS, CATEGORIES, BEACONS, TOKENS,
                LAST_UPDATES, PRODUCT_INTERACTIONS, OFFER_INTERACTIONS, RETAILER_INTERACTIONS, BEACON_INTERACTIONS,
-               THIRD_PARTY_INTERACTIONS, CALENDAR_EVENTS, PRODUCTS, OFFERS, BLACKLIST_TOKENS]
+               THIRD_PARTY_INTERACTIONS, CALENDAR_EVENTS, PRODUCTS, OFFERS, BLACKLIST_TOKENS, RATINGS]
 
 
 # Attributes
@@ -145,8 +146,31 @@ VALIDATE = 'validate'
 REGISTER = 'register'
 
 
+# Text Classifier
+TEXT_API_APP_ID = 'TEXT_API_APP_ID'
+TEXT_API_KEY = 'TEXT_API_KEY'
+TEXT = 'text'
+TAXONOMY = 'taxonomy'
+IAB_QAG = 'iab-qag'
+CATEGORIES = 'categories'
+CONFIDENT = 'confident'
+SCORE = 'score'
+
+
+# Sentiment Analysis
+SENT_API_KEY = 'SENT_API_KEY'
+SENT_BASE_URL = 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?'
+ACCOUNT_KEY = 'AccountKey:'
+CONTENT_TYPE = 'Content-Type'
+AUTHORIZATION = 'Authorization'
+SENT_SCORE = 'Score'
+KEY_PHRASES = 'KeyPhrases'
+PHRASES_BASE_URL =  'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetKeyPhrases?'
+
+
 # Modes
 MODE_HEADER_KEY = 'Mode'
 DEBUG = 'debug'
 RELEASE = 'release'
 TEST = 'test'
+EVAL = 'eval'
