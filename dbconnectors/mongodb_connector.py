@@ -12,6 +12,7 @@ def get_mongo_id(id_):
 
 
 def get_db(mode):
+    print 'MODE: ' + mode
     #return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
     return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
@@ -54,7 +55,8 @@ def read(collection_id, query_dicts=None, mode=DEBUG):
             docs = []
             for query_dict in query_dicts:
                 if ID in query_dict.keys():
-                    query_dict[ID] = ObjectId(query_dict[ID])
+                    query_dict[_mongo_id_key] = ObjectId(query_dict[ID])
+                    del query_dict[ID]
                 cursor = db[collection_id].find(query_dict)
                 docs.extend(extract_docs(cursor))
             return docs
