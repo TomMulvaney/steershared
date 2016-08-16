@@ -117,6 +117,10 @@ USERNAME = 'username'
 VALUE = 'value'
 WEBSITE = 'website'
 
+# Attribute Values
+PURCHASE = 'purchase'
+IMPRESSION = 'impression'
+
 LEGAL_ATTRS = {BEACONS: [BEACON_TYPE, ID, IS_ACTIVE, MAJOR, MINOR, RETAILER_ID],
                BLACKLIST_TOKENS: [],
                CALENDAR_EVENTS: [CONSUMER_ID, IAB_CATEGORY_ID, ID, LAT, LONG, NAME, OCCURS_AT, THIRD_PARTY_NAME],
