@@ -4,12 +4,16 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 
-_mongo_id = '_id'
+_mongo_id_key = '_id'
+
+
+def get_mongo_id(id_):
+    return ObjectId(id_)
 
 
 def get_db(mode):
-    return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
-    #return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
+    #return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
+    return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
 
 def create(collection_id, docs, mode=DEBUG):
@@ -31,8 +35,8 @@ def create(collection_id, docs, mode=DEBUG):
 def extract_docs(cursor):
     docs = []
     for doc in cursor:
-        doc[ID] = str(doc[_mongo_id])
-        del doc[_mongo_id]
+        doc[ID] = str(doc[_mongo_id_key])
+        del doc[_mongo_id_key]
         docs.append(doc)
     return docs
 
@@ -71,7 +75,7 @@ def update(collection_id, updated_docs, mode=DEBUG):
             id_ = updated_doc[ID]
             del updated_doc[ID]
             updated_doc = {'$set': updated_doc}
-            result = db[collection_id].update_one({_mongo_id: ObjectId(id_)}, updated_doc)
+            result = db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
             print type(result)
             print result
             updated_ids.append(id_)
@@ -89,7 +93,7 @@ def delete(collection_id, ids, mode=DEBUG):
     db = get_db(mode)
     for id_ in ids:
         try:
-            results = db[collection_id].delete_one({_mongo_id: ObjectId(id_)})
+            results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
             print type(results)
             print results
         except Exception as e:
