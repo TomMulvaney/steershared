@@ -54,6 +54,7 @@ COLLECTIONS = [BEACONS, BLACKLIST_TOKENS, CALENDAR_EVENTS, BEACON_INTERACTIONS, 
 ADDRESS = 'address'
 BEACON_ID = 'beacon_id'
 BEACON_TYPE = 'beacon_type'
+CATEGORY_ID = 'category_id'
 COMMENT = 'comment'
 CONSUMER_ID = 'consumer_id'
 DESCRIPTION = 'description'
