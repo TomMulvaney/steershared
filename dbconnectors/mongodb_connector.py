@@ -12,7 +12,6 @@ def get_mongo_id(id_):
 
 
 def get_db(mode):
-    print 'MODE: ' + mode
     #return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
     return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
