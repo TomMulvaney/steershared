@@ -13,8 +13,6 @@ def get_sentiment(input_text):
     credentials = base64.b64encode(ACCOUNT_KEY + app.config[SENT_API_KEY])
     headers = {CONTENT_TYPE: 'application/json', AUTHORIZATION: ('Basic ' + credentials)}
     params = {TEXT: input_text}
-    # Savvas: Polarity value of 3 is neutral.
-    polarity = 3
 
     # Savvas: Request score by text
     sentiment_url = SENT_BASE_URL + urllib.urlencode(params)
