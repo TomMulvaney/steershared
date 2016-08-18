@@ -15,6 +15,9 @@ TOKEN_TYPE = 'token_type'
 TOWN = 'town'
 USER_TYPE = 'user_type'
 
+# Machine Learning
+CATEGORY_TYPES = 'category_types'
+
 # Database
 DB_ACCESS_MODULE = 'DB_ACCESS_MODULE'
 DB_ID = 'DB_ID'
