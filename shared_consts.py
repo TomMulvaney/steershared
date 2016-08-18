@@ -47,7 +47,6 @@ RETAILERS = 'retailers'
 RETAILER_INTERACTIONS = 'consumer_retailer_interactions'
 RETAILER_USERS = 'retailer_users'
 THIRD_PARTY_INTERACTIONS = 'consumer_third_party_interactions'
-TOKENS = 'third_party_tokens'
 TOWN_USERS = 'town_users'
 
 COLLECTIONS = [BEACONS, BLACKLIST_TOKENS, CALENDAR_EVENTS, BEACON_INTERACTIONS, OFFER_INTERACTIONS,
@@ -111,6 +110,7 @@ RETAILER_ID = 'retailer_id'
 RETAILER_NAME = 'retailer_name'
 RETAILER_TYPE = 'retailer_type'
 SALT = 'salt'
+SECRET_TOKEN = 'secret_token'
 SENTIMENT = 'sentiment'
 STARTS_AT = 'starts_at'
 STOPS_AT = 'stops_at'
@@ -118,9 +118,9 @@ SUBCATEGORY_ID = 'subcategory_id'
 SURNAME = 'surname'
 SURVEY_IMAGE_URL = 'survey_image_url'
 TERMS_AND_CONDITIONS = 'terms_and_conditions'
-THIRD_PARTY_CONSUMER_ID = 'third_party_consumer_id'
+THIRD_PARTY_USER_ID = 'third_party_user_id'
 THIRD_PARTY_NAME = 'third_party_name'
-TOKENS = 'tokens'
+THIRD_PARTY_TOKENS = 'third_party_tokens'
 TYPE = 'type'
 USERNAME = 'username'
 VALUE = 'value'
@@ -142,7 +142,7 @@ LEGAL_ATTRS = {BEACONS: [BEACON_TYPE, ID, IS_ACTIVE, MAJOR, MINOR, RETAILER_ID],
                THIRD_PARTY_INTERACTIONS: [CONSUMER_ID, IAB_CATEGORY_ID, ID, INTERACTION_TYPE, RAW, SENTIMENT,
                                           THIRD_PARTY_NAME],
                CONSUMERS: [ADDRESS, DOB, EMAIL, FIRSTNAME, GENDER, HASHED_PASS, ID, PHONE, POSTCODE,
-                           PRIMARY_THIRD_PARTY_NAME, SALT, TOKENS, USERNAME],
+                           PRIMARY_THIRD_PARTY_NAME, SALT, THIRD_PARTY_TOKENS, USERNAME],
                IAB_CATEGORIES: [CATEGORY_CODE, ID, PARENT_CATEGORY_CODE, PARENT_ID, PARENT_NAME, NAME],
                PRODUCTS: [KMEANS_CATEGORY_ID, DESCRIPTION, IAB_CATEGORY_ID, ID, IMAGE_FILENAMES, IMAGE_URL,
                           IS_FILE_UPLOAD, NAME, PRICE, QUANTITY, RETAILER_ID, SURVEY_IMAGE_URL, STOPS_AT],
