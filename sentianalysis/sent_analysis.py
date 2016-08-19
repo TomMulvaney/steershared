@@ -3,8 +3,8 @@ import urllib2
 import urllib
 import base64
 import json
-from FlaskWebProject.steershared.shared_consts import SENT_API_KEY,SENT_BASE_URL, ACCOUNT_KEY, AUTHORIZATION, \
-                                                        CONTENT_TYPE, TEXT, SENT_SCORE, KEY_PHRASES, PHRASES_BASE_URL
+from FlaskWebProject.steershared.shared_consts import SENT_API_KEY, ACCOUNT_KEY, AUTHORIZATION, \
+                                                        CONTENT_TYPE, TEXT, SENT_SCORE, KEY_PHRASES
 
 
 # Savvas: Sentiment analysis by Azure's API. Takes text and returns a sentiment
@@ -15,7 +15,8 @@ def get_sentiment(input_text):
     params = {TEXT: input_text}
 
     # Savvas: Request score by text
-    sentiment_url = SENT_BASE_URL + urllib.urlencode(params)
+    sentiment_url = ('https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?'\
+                     + urllib.urlencode(params))
     req = urllib2.Request(sentiment_url, None, headers)
     response = urllib2.urlopen(req)
     result = response.read()
@@ -25,7 +26,8 @@ def get_sentiment(input_text):
 
     # Savvas: Receive key phrases in text. This is not used because it is not needed.
     #         The text Classifier works better with whole sentences instead of just key phrase
-    #key_phrases_url = PHRASES_BASE_URL + urllib.urlencode(params)
+    #key_phrases_url = ('https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetKeyPhrases?' +
+                        #urllib.urlencode(params))
     #req = urllib2.Request(key_phrases_url, None, headers)
     #response = urllib2.urlopen(req)
     #result = response.read()

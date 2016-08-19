@@ -197,13 +197,11 @@ SCORE = 'score'
 
 # Sentiment Analysis
 SENT_API_KEY = 'SENT_API_KEY'
-SENT_BASE_URL = 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetSentiment?'
 ACCOUNT_KEY = 'AccountKey:'
 CONTENT_TYPE = 'Content-Type'
 AUTHORIZATION = 'Authorization'
 SENT_SCORE = 'Score'
 KEY_PHRASES = 'KeyPhrases'
-PHRASES_BASE_URL = 'https://api.datamarket.azure.com/data.ashx/amla/text-analytics/v1/GetKeyPhrases?'
 
 # Modes
 MODE_HEADER_KEY = 'Mode'
