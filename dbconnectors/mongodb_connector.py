@@ -24,7 +24,6 @@ def create(collection_id, docs, mode=DEBUG):
         db = get_db(mode)
         results = db[collection_id].insert_many(docs)
         ids = [str(inserted_id) for inserted_id in results.inserted_ids]
-        print ids
         return ids
     except Exception as e:
         print type(e)
