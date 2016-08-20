@@ -16,21 +16,6 @@ def get_db(mode):
     return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
 
-def create(collection_id, docs, mode=DEBUG):
-    # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
-    if type(docs) is dict:
-        docs = [docs]
-    try:
-        db = get_db(mode)
-        results = db[collection_id].insert_many(docs)
-        ids = [str(inserted_id) for inserted_id in results.inserted_ids]
-        return ids
-    except Exception as e:
-        print type(e)
-        print e
-        raise e
-
-
 def extract_docs(cursor):
     docs = []
     for doc in cursor:
@@ -38,6 +23,22 @@ def extract_docs(cursor):
         del doc[_mongo_id_key]
         docs.append(doc)
     return docs
+
+
+def create(collection_id, docs, mode=DEBUG):
+    # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+    if type(docs) is dict:
+        docs = [docs]
+    try:
+        db = get_db(mode)
+        results = db[collection_id].insert_many(docs)
+        extract_docs(docs)
+        ids = [str(inserted_id) for inserted_id in results.inserted_ids]
+        return ids
+    except Exception as e:
+        print type(e)
+        print e
+        raise e
 
 
 def read(collection_id, query_dicts=None, mode=DEBUG):
@@ -72,17 +73,21 @@ def update(collection_id, updated_docs, mode=DEBUG):
     updated_ids = []
     for updated_doc in updated_docs:
         try:
+            # Change 'id' to '_id' because mongo uses different key attribute
             id_ = updated_doc[ID]
             del updated_doc[ID]
             updated_doc = {'$set': updated_doc}
             result = db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
-            print type(result)
-            print result
             updated_ids.append(id_)
         except Exception as e:
             print type(e)
             print e
             raise e
+    # Put id back in the original docs because we modified the objects and classes calling this function may still
+    # need the id
+    zipped = zip(updated_docs, updated_ids)
+    for doc, id_ in zipped:
+        doc[ID] = id_
     return updated_ids
 
 
