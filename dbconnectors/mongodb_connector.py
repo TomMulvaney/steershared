@@ -3,7 +3,6 @@ from FlaskWebProject.steershared.shared_consts import ID, DEBUG, MONGO_DB, DB_ID
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-
 _mongo_id_key = '_id'
 
 
@@ -11,9 +10,27 @@ def get_mongo_id(id_):
     return ObjectId(id_)
 
 
-def get_db(mode):
-    #return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
-    return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
+db = MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
+print 'DB'
+print db
+
+
+# MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
+
+
+def create(collection_id, docs, mode=DEBUG):
+    # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+    if type(docs) is dict:
+        docs = [docs]
+    try:
+        results = db[collection_id].insert_many(docs)
+        ids = [str(inserted_id) for inserted_id in results.inserted_ids]
+        print ids
+        return ids
+    except Exception as e:
+        print type(e)
+        print e
+        raise e
 
 
 def extract_docs(cursor):
@@ -25,28 +42,13 @@ def extract_docs(cursor):
     return docs
 
 
-def create(collection_id, docs, mode=DEBUG):
-    # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
-    if type(docs) is dict:
-        docs = [docs]
-    try:
-        db = get_db(mode)
-        results = db[collection_id].insert_many(docs)
-        extract_docs(docs)
-        ids = [str(inserted_id) for inserted_id in results.inserted_ids]
-        return ids
-    except Exception as e:
-        print type(e)
-        print e
-        raise e
-
-
 def read(collection_id, query_dicts=None, mode=DEBUG):
+    print 'DB'
+    print db
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(query_dicts) is dict:
         query_dicts = [query_dicts]
     try:
-        db = get_db(mode)
         if query_dicts is None:
             cursor = db[collection_id].find()
             return extract_docs(cursor)
@@ -69,25 +71,21 @@ def update(collection_id, updated_docs, mode=DEBUG):
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(updated_docs) is dict:
         updated_docs = [updated_docs]
-    db = get_db(mode)
+
     updated_ids = []
     for updated_doc in updated_docs:
         try:
-            # Change 'id' to '_id' because mongo uses different key attribute
             id_ = updated_doc[ID]
             del updated_doc[ID]
             updated_doc = {'$set': updated_doc}
             result = db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
+            print type(result)
+            print result
             updated_ids.append(id_)
         except Exception as e:
             print type(e)
             print e
             raise e
-    # Put id back in the original docs because we modified the objects and classes calling this function may still
-    # need the id
-    zipped = zip(updated_docs, updated_ids)
-    for doc, id_ in zipped:
-        doc[ID] = id_
     return updated_ids
 
 
@@ -95,7 +93,7 @@ def delete(collection_id, ids, mode=DEBUG):
     # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
     if type(ids) is str:
         ids = [ids]
-    db = get_db(mode)
+
     for id_ in ids:
         try:
             results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
