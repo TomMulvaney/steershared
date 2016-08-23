@@ -11,7 +11,7 @@ def get_category(input_text):
     c = textapi.Client(app.config[TEXT_API_APP_ID], app.config[TEXT_API_KEY])
     sleep(1)
     # Savvas: Send the test the text Classifier. It's classifying by taxonomy.
-    s = c.ClassifyByTaxonomy({TEXT : input_text, TAXONOMY : IAB_QAG})
+    s = c.ClassifyByTaxonomy({TEXT: input_text, TAXONOMY: IAB_QAG})
     result = None
     score_level = 0.10
     # Savvas: Returns None if there is no relevant,trusted category.
