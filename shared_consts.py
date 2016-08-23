@@ -220,3 +220,11 @@ DEBUG = 'debug'
 EVAL = 'eval'
 RELEASE = 'release'
 TEST = 'test'
+
+# AzureBlobConnector and AzureTableConnector
+AZURE_ACCOUNT_NAME = 'AZURE_ACCOUNT_NAME'
+AZURE_ACCOUNT_KEY = 'AZURE_ACCOUNT_KEY'
+CONTAINER = 'container'
+
+# Default column name when converting pd.Series to pd.DataFrame
+SERIES_COLUMN = 'VALUES'
