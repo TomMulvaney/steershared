@@ -10,12 +10,9 @@ def get_mongo_id(id_):
     return ObjectId(id_)
 
 
-db = MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
-print 'DB'
-print db
-
-
-# MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
+def get_db():
+    return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
+    #return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
 
 def create(collection_id, docs, mode=DEBUG):
@@ -23,6 +20,7 @@ def create(collection_id, docs, mode=DEBUG):
     if type(docs) is dict:
         docs = [docs]
     try:
+        db = get_db()
         results = db[collection_id].insert_many(docs)
         ids = [str(inserted_id) for inserted_id in results.inserted_ids]
         print ids
@@ -49,6 +47,7 @@ def read(collection_id, query_dicts=None, mode=DEBUG):
     if type(query_dicts) is dict:
         query_dicts = [query_dicts]
     try:
+        db = get_db()
         if query_dicts is None:
             cursor = db[collection_id].find()
             return extract_docs(cursor)
@@ -72,6 +71,7 @@ def update(collection_id, updated_docs, mode=DEBUG):
     if type(updated_docs) is dict:
         updated_docs = [updated_docs]
 
+    db = get_db()
     updated_ids = []
     for updated_doc in updated_docs:
         try:
@@ -93,7 +93,7 @@ def delete(collection_id, ids, mode=DEBUG):
     # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
     if type(ids) is str:
         ids = [ids]
-
+    db = get_db()
     for id_ in ids:
         try:
             results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
