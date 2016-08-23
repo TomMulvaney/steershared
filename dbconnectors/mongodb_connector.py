@@ -41,8 +41,6 @@ def extract_docs(cursor):
 
 
 def read(collection_id, query_dicts=None, mode=DEBUG):
-    print 'DB'
-    print db
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(query_dicts) is dict:
         query_dicts = [query_dicts]
