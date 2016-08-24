@@ -1,5 +1,5 @@
 from FlaskWebProject import app
-from FlaskWebProject.steershared.shared_consts import ID, DEBUG, MONGO_DB, DB_ID
+from FlaskWebProject.steershared.shared_consts import ID, EVAL, MONGO_DB, DB_ID
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from copy import deepcopy
@@ -51,7 +51,7 @@ class MongoConnector:
 
     def gen_db(self):
         print 'Generating db client'
-        self._db = MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
+        self._db = MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], self.mode)]
 
     @deco_retry
     def create(self, collection_id, docs):
@@ -161,7 +161,7 @@ class MongoConnector:
 
 
 # This is for backwards compatibility from before connectors were objects
-_default_connector = MongoConnector(DEBUG)
+_default_connector = MongoConnector(EVAL)
 
 def create(collection_id, docs):
     return _default_connector.create(collection_id, docs)
