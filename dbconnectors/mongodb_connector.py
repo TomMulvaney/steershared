@@ -2,6 +2,8 @@ from FlaskWebProject import app
 from FlaskWebProject.steershared.shared_consts import ID, DEBUG, MONGO_DB, DB_ID
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from copy import deepcopy
+
 
 _mongo_id_key = '_id'
 
@@ -12,10 +14,9 @@ def get_mongo_id(id_):
 
 def get_db():
     return MongoClient(app.config[MONGO_DB])[app.config[DB_ID]]
-    #return MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], mode)]
 
 
-def create(collection_id, docs, mode=DEBUG):
+def create(collection_id, docs):
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(docs) is dict:
         docs = [docs]
@@ -40,7 +41,7 @@ def extract_docs(cursor):
     return docs
 
 
-def read(collection_id, query_dicts=None, mode=DEBUG):
+def read(collection_id, query_dicts=None):
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(query_dicts) is dict:
         query_dicts = [query_dicts]
@@ -64,21 +65,20 @@ def read(collection_id, query_dicts=None, mode=DEBUG):
         raise e
 
 
-def update(collection_id, updated_docs, mode=DEBUG):
+def update(collection_id, updated_docs):
     # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
     if type(updated_docs) is dict:
         updated_docs = [updated_docs]
+
+    updated_docs = deepcopy(updated_docs)
 
     db = get_db()
     updated_ids = []
     for updated_doc in updated_docs:
         try:
             id_ = updated_doc[ID]
-            del updated_doc[ID]
             updated_doc = {'$set': updated_doc}
             result = db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
-            print type(result)
-            print result
             updated_ids.append(id_)
         except Exception as e:
             print type(e)
@@ -87,7 +87,29 @@ def update(collection_id, updated_docs, mode=DEBUG):
     return updated_ids
 
 
-def delete(collection_id, ids, mode=DEBUG):
+def replace(collection_id, replace_docs):
+    # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+    if type(replace_docs) is dict:
+        replace_docs = [replace_docs]
+
+    replace_docs = deepcopy(replace_docs)
+
+    db = get_db()
+    replace_ids = []
+    for replace_doc in replace_docs:
+        try:
+            id_ = replace_doc[ID]
+            replace_doc = {'$set': replace_doc}
+            result = db[collection_id].replace_one({_mongo_id_key: ObjectId(id_)}, replace_doc)
+            replace_ids.append(id_)
+        except Exception as e:
+            print type(e)
+            print e
+            raise e
+    return replace_ids
+
+
+def delete(collection_id, ids):
     # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
     if type(ids) is str:
         ids = [ids]
