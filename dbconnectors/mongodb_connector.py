@@ -116,7 +116,10 @@ def delete(collection_id, ids):
     db = get_db()
     for id_ in ids:
         try:
-            results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
+            if type(ids) is list:
+                results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
+            else:
+                results = db[collection_id].delete_many({})
             print type(results)
             print results
         except Exception as e:
