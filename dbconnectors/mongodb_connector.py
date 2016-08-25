@@ -62,7 +62,8 @@ class MongoConnector:
         try:
             results = self._db[collection_id].insert_many(docs)
             ids = [str(inserted_id) for inserted_id in results.inserted_ids]
-            print ids
+            for doc in docs:
+                del doc[_mongo_id_key]
             return ids
         except Exception as e:
             print type(e)
@@ -125,7 +126,6 @@ class MongoConnector:
         for replace_doc in replace_docs:
             try:
                 id_ = replace_doc[ID]
-                replace_doc = {'$set': replace_doc}
                 result = self._db[collection_id].replace_one({_mongo_id_key: ObjectId(id_)}, replace_doc)
                 replace_ids.append(id_)
             except Exception as e:
@@ -137,27 +137,20 @@ class MongoConnector:
     @deco_retry
     def delete(self, collection_id, ids=None):
         # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
-        if type(ids) is str:
-            ids = [ids]
-        for id_ in ids:
-            try:
-                if type(ids) is list:
-                    results = self._db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
-                else:
-                    results = self._db[collection_id].delete_many({})
-                print type(results)
-                print results
-            except Exception as e:
-                print type(e)
-                print e
-                raise e
-        return ids
-
-    @deco_retry
-    def foo(self):
-        print type(self.foo)
-        print 'Called foo'
-        raise Exception('foo error')
+        if not ids:
+            self._db[collection_id].delete_many({})
+            return []
+        else:
+            if type(ids) is str:
+                ids = [ids]
+            for id_ in ids:
+                try:
+                    self._db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
+                except Exception as e:
+                    print type(e)
+                    print e
+                    raise e
+            return ids
 
 
 # This is for backwards compatibility from before connectors were objects
