@@ -111,19 +111,19 @@ def replace(collection_id, replace_docs):
 
 def delete(collection_id, ids=None):
     # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
-    if type(ids) is str:
-        ids = [ids]
     db = get_db()
-    for id_ in ids:
-        try:
-            if type(ids) is list:
-                results = db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
-            else:
-                results = db[collection_id].delete_many({})
-            print type(results)
-            print results
-        except Exception as e:
-            print type(e)
-            print e
-            raise e
-    return ids
+
+    if not ids:
+        db[collection_id].delete_many({})
+        return []
+    else:
+        if type(ids) is str:
+            ids = [ids]
+        for id_ in ids:
+            try:
+                db[collection_id].delete_one({_mongo_id_key: ObjectId(id_)})
+            except Exception as e:
+                print type(e)
+                print e
+                raise e
+        return ids
