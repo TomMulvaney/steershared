@@ -135,7 +135,7 @@ class MongoConnector:
         return replace_ids
 
     @deco_retry
-    def delete(self, collection_id, ids):
+    def delete(self, collection_id, ids=None):
         # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
         if type(ids) is str:
             ids = [ids]
