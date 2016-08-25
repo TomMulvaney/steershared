@@ -109,7 +109,7 @@ def replace(collection_id, replace_docs):
     return replace_ids
 
 
-def delete(collection_id, ids):
+def delete(collection_id, ids=None):
     # Machine Learning may call this function directly and pass a string, so make sure that it's wrapped in a list
     if type(ids) is str:
         ids = [ids]
