@@ -23,6 +23,8 @@ def create(collection_id, docs):
     try:
         db = get_db()
         results = db[collection_id].insert_many(docs)
+        for doc in docs:
+            del doc[_mongo_id_key]
         ids = [str(inserted_id) for inserted_id in results.inserted_ids]
         print ids
         return ids
@@ -99,7 +101,7 @@ def replace(collection_id, replace_docs):
     for replace_doc in replace_docs:
         try:
             id_ = replace_doc[ID]
-            replace_doc = {'$set': replace_doc}
+            #replace_doc = {'$set': replace_doc}
             result = db[collection_id].replace_one({_mongo_id_key: ObjectId(id_)}, replace_doc)
             replace_ids.append(id_)
         except Exception as e:
