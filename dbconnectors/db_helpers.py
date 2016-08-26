@@ -1,11 +1,11 @@
 from FlaskWebProject import app
-from FlaskWebProject.steershared.shared_consts import ID, DB_ACCESS_MODULE, MODE_HEADER_KEY, DEBUG, EVAL
+from FlaskWebProject.steershared.shared_consts import ID, DB_ACCESS_MODULE, MODE_HEADER_KEY, DEFAULT_MODE, EVAL
 import importlib
 
 
 def rename_attrs(collection_id, attrs, db=None):
     if not db:
-        db = get_db(EVAL)
+        db = get_db()
     docs = db.read(collection_id)
     for doc in docs:
         for old_attr, new_attr in attrs.iteritems():
@@ -23,7 +23,9 @@ def get_db(mode):
         if type(mode) is not str:
             mode = mode[MODE_HEADER_KEY]
     except KeyError:
-        mode = DEBUG
+        mode = app.config[DEFAULT_MODE]
+    except TypeError:
+        mode = app.config[DEFAULT_MODE]
     if mode not in _dbs.keys():
         _dbs[mode] = _db_module.gen_connector(mode)
     return _dbs[mode]
