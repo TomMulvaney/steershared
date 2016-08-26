@@ -22,11 +22,13 @@ def _extract_docs(cursor):
     return docs
 
 
+def gen_connector(mode):
+    return MongoConnector(mode)
+
+
 def deco_retry(f):
     @wraps(f)
     def f_retry(self, *args, **kwargs):
-        print type(self)
-        print type(f)
         mtries = 2
         while mtries > 1:
             try:
@@ -45,13 +47,13 @@ def deco_retry(f):
 
 class MongoConnector:
     def __init__(self, mode):
-        self.mode = mode
+        self._mode = mode
         self._db = None
         self.gen_db()
 
     def gen_db(self):
         print 'Generating db client'
-        self._db = MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], self.mode)]
+        self._db = MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], self._mode)]
 
     @deco_retry
     def create(self, collection_id, docs):
@@ -76,6 +78,8 @@ class MongoConnector:
         if type(query_dicts) is dict:
             query_dicts = [query_dicts]
         try:
+            print self._mode
+            print self._db
             if query_dicts is None:
                 cursor = self._db[collection_id].find()
                 return _extract_docs(cursor)
@@ -87,6 +91,7 @@ class MongoConnector:
                         del query_dict[ID]
                     cursor = self._db[collection_id].find(query_dict)
                     docs.extend(_extract_docs(cursor))
+                    print docs
                 return docs
         except Exception as e:
             print type(e)
@@ -155,6 +160,7 @@ class MongoConnector:
 
 # This is for backwards compatibility from before connectors were objects
 _default_connector = MongoConnector(EVAL)
+
 
 def create(collection_id, docs):
     return _default_connector.create(collection_id, docs)

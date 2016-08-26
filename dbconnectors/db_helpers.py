@@ -1,20 +1,11 @@
 from FlaskWebProject import app
-from FlaskWebProject.steershared.shared_consts import ID, DB_ACCESS_MODULE
+from FlaskWebProject.steershared.shared_consts import ID, DB_ACCESS_MODULE, MODE_HEADER_KEY, DEBUG, EVAL
 import importlib
 
 
-def import_db_access_module():
-    return importlib.import_module(app.config[DB_ACCESS_MODULE])
-
-
-def add_ids(docs, ids):
-    zipped = zip(docs, ids)
-    for doc, id_ in zipped:
-        doc[ID] = id_
-
-
-def rename_attrs(collection_id, attrs):
-    db = import_db_access_module()
+def rename_attrs(collection_id, attrs, db=None):
+    if not db:
+        db = get_db(EVAL)
     docs = db.read(collection_id)
     for doc in docs:
         for old_attr, new_attr in attrs.iteritems():
@@ -23,21 +14,27 @@ def rename_attrs(collection_id, attrs):
     db.replace(collection_id, docs)
 
 
-"""
-if __name__ == '__main__':
-    db = import_db_access_module()
-    coll = 'foo'
-    db.delete(coll)
-    docs = [{'hello': 0, 'world': 1, 'foo': 5}, {'hello': 2, 'world': 3, 'foo': 6}]
-    ids = db.create(coll, docs)
-    print 'PRE ADD'
-    print docs
-    add_ids(docs, ids)
-    print 'PRE RENAME'
-    print docs
-    rename_attrs(coll, {'hello': 'olleh', 'world': 'drlow'})
-    docs = db.read(coll)
-    print 'POST RENAME'
-    print docs
-    db.delete(coll)
-"""
+def import_db_connector_module():
+    return importlib.import_module(app.config[DB_ACCESS_MODULE])
+
+
+def get_db(mode):
+    try:
+        if type(mode) is not str:
+            mode = mode[MODE_HEADER_KEY]
+    except KeyError:
+        mode = DEBUG
+    if mode not in _dbs.keys():
+        _dbs[mode] = _db_module.gen_connector(mode)
+    return _dbs[mode]
+
+
+def add_ids(docs, ids):
+    zipped = zip(docs, ids)
+    for doc, id_ in zipped:
+        doc[ID] = id_
+
+
+# Private variables
+_db_module = import_db_connector_module()
+_dbs = {}
