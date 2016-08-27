@@ -158,6 +158,7 @@ class MongoConnector:
             return ids
 
 
+"""
 # This is for backwards compatibility from before connectors were objects
 _default_connector = MongoConnector(app.config[DEFAULT_MODE])
 
@@ -180,3 +181,4 @@ def replace(collection_id, docs):
 
 def delete(collection_id, docs):
     return _default_connector.delete(collection_id, docs)
+"""

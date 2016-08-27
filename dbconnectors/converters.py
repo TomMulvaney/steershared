@@ -12,8 +12,13 @@ def str_to_float(mode, collection_id, attr):
     print docs
 
     for doc in docs:
-        doc[attr] = doc[attr].replace(u'£', u'').replace('n/a', '-1').replace(',', '').replace('From ', ''). \
-            replace('From: ', '').replace(' / 15 sachets', '').replace('from just ', '').replace('from ', '')
+        is_dollar = u'$' in doc[attr]
+
+        # replace(u'£', u'')
+        doc[attr] = doc[attr].replace(u'\xa33', u'').replace(u'\xa30', u'').replace('n/a', '-1').replace(',', '').\
+            replace('From ', '').replace('From: ', '').replace(' / 15 sachets', '').replace('from just ', '').\
+            replace('from ', '').replace(u'USD $', '').replace(u'$', '')
+
         doc[attr] = doc[attr].strip()
 
         if not doc[attr]:
@@ -32,6 +37,8 @@ def str_to_float(mode, collection_id, attr):
                 raise e
         try:
             doc[attr] = float(doc[attr])
+            if is_dollar:
+                doc[attr] *= 0.76
         except Exception as e:
             print e
             print doc
@@ -39,8 +46,6 @@ def str_to_float(mode, collection_id, attr):
             raise e
 
     print docs
-
-    return
 
     db.update(collection_id, docs)
 
