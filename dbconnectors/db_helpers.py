@@ -28,6 +28,7 @@ def get_db(mode):
         mode = app.config[DEFAULT_MODE]
     if mode not in _dbs.keys():
         _dbs[mode] = _db_module.gen_connector(mode)
+    print 'Getting {0} db'.format(mode)
     return _dbs[mode]
 
 
