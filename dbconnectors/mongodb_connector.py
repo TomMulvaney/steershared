@@ -77,7 +77,7 @@ class MongoConnector:
         if type(query_dicts) is dict:
             query_dicts = [query_dicts]
         try:
-            if query_dicts is None:
+            if not query_dicts:
                 cursor = self._db[collection_id].find()
                 return _extract_docs(cursor)
             else:
