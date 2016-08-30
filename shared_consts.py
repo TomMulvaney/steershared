@@ -192,6 +192,11 @@ MANDATORY_ATTRS = {BEACONS: [BEACON_TYPE, IS_ACTIVE, MAJOR, MINOR, RETAILER_ID],
                    RETAILERS: [LAT, LONG, NAME],
                    TOWN_USERS: [USERNAME]}
 
+UNIQUE_ATTRS = {CONSUMERS: [USERNAME],
+                RETAILER_USERS: [USERNAME],
+                RETAILERS: [NAME],
+                TOWN_USERS: [USERNAME]}
+
 # Actions
 CREATE = 'create'
 READ = 'read'
