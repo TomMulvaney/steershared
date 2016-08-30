@@ -38,7 +38,7 @@ def deco_retry(f):
                 self.gen_db()
                 print type(e)
                 print e
-            print 'Retrying'
+            print 'Retrying mongodbconnector'
             mtries -= 1
         return f(self, *args, **kwargs)
 
@@ -52,7 +52,6 @@ class MongoConnector:
         self.gen_db()
 
     def gen_db(self):
-        print 'Generating db client'
         self._db = MongoClient(app.config[MONGO_DB])['{0}_{1}'.format(app.config[DB_ID], self._mode)]
 
     @deco_retry
@@ -78,8 +77,6 @@ class MongoConnector:
         if type(query_dicts) is dict:
             query_dicts = [query_dicts]
         try:
-            print self._mode
-            print self._db
             if query_dicts is None:
                 cursor = self._db[collection_id].find()
                 return _extract_docs(cursor)
@@ -91,7 +88,6 @@ class MongoConnector:
                         del query_dict[ID]
                     cursor = self._db[collection_id].find(query_dict)
                     docs.extend(_extract_docs(cursor))
-                    print docs
                 return docs
         except Exception as e:
             print type(e)
