@@ -193,9 +193,9 @@ MANDATORY_ATTRS = {BEACONS: [BEACON_TYPE, IS_ACTIVE, MAJOR, MINOR, RETAILER_ID],
                    TOWN_USERS: [USERNAME]}
 
 UNIQUE_ATTRS = {CONSUMERS: [USERNAME],
-                RETAILER_USERS: [USERNAME],
+                RETAILER_USERS: [EMAIL, USERNAME],
                 RETAILERS: [NAME],
-                TOWN_USERS: [USERNAME]}
+                TOWN_USERS: [EMAIL, USERNAME]}
 
 # Actions
 CREATE = 'create'
