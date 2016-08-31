@@ -239,3 +239,56 @@ CONTAINER = 'container'
 
 # Default column name when converting pd.Series to pd.DataFrame
 SERIES_COLUMN = 'VALUES'
+
+
+
+# FACEBOOK
+FB_API_URL = 'https://graph.facebook.com/v2.5/me'
+PAGE = 'page'
+POST = 'post'
+EVENT = 'event'
+UTF_8 = 'utf-8'
+MESSAGE = 'message'
+STORY = 'story'
+START_TIME = 'start_time'
+PLACE = 'place'
+LOCATION = 'location'
+
+# PINTEREST
+PIN_API_URL = "https://api.pinterest.com/v1/me/"
+BOARDS = 'boards'
+SUGGESTED_BOARDS = 'boards/suggested'
+FOLLOWING_BOARDS = 'following/boards'
+FOLLOWING_INTERESTS = 'following/interests'
+FOLLOWING_USERS = 'following/user'
+LIKES = 'likes'
+PINS = 'pins'
+NOTE = 'note'
+BOARD = 'board'
+SUGGESTION = 'suggestion'
+BOARD = 'board'
+INTEREST = 'interest'
+USER = 'user'
+LIKE = 'like'
+PIN = 'pin'
+
+# TWITTER
+TWITTER = 'Twitter'
+FOLLOWERS = 'followers/list'
+FRIENDS = 'friends/list'
+SUGGESTIONS = 'users/suggestions'
+TIMELINE = 'statuses/user_timeline'
+FOLLOWER = 'follower'
+FRIEND = 'friend'
+SUGGESTION = 'suggestion'
+STATUS = 'status'
+TEXT = 'text'
+NAME_DESCRIPTION = 'name+description'
+TWITTER_API_URL = 'https://api.twitter.com/1.1/'
+
+# GOOGLE PLUS
+GOOGLE_CALENDAR_API_URL = 'https://www.googleapis.com/calendar/v3/calendars/primary/'
+ITEMS = 'items'
+SUMMARY = 'summary'
+START = 'start'
+DATE_TIME = 'dateTime'
