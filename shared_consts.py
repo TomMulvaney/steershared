@@ -292,3 +292,7 @@ ITEMS = 'items'
 SUMMARY = 'summary'
 START = 'start'
 DATE_TIME = 'dateTime'
+
+# k-means
+KMEANS_FEATURES = [PRICE, QUANTITY, INTERACTIONS]
+CLUSTER_COUNT = 4
