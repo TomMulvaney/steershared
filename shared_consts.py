@@ -224,7 +224,9 @@ AUTHORIZATION = 'Authorization'
 SENT_SCORE = 'Score'
 KEY_PHRASES = 'KeyPhrases'
 
-# Modes
+# Database
+DB_PACKAGE_PATH = 'DB_PACKAGE_PATH'
+DB_HEADER_KEY = 'Database'
 MODE_HEADER_KEY = 'Mode'
 DEBUG = 'debug'
 EVAL = 'eval'
