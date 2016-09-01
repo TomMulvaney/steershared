@@ -9,7 +9,7 @@ from FlaskWebProject.steershared.dbconnectors.db_helpers import get_db
 from upload_helpers import get_dev_headers
 
 
-def upload_retailers(mode=DEBUG):
+def upload_retailers(mode):
     retailers = None
     with open('retailers.json', 'r') as myfile:
         raw_retailer_data = myfile.read()
@@ -29,12 +29,9 @@ def upload_retailers(mode=DEBUG):
 
     ids = crud_safety.create(RETAILERS, headers, retailers)
     print ids
-    retailers = db.read(RETAILERS)
-    print retailers
-    print ''
 
 
-def upload_products(mode=DEBUG):
+def upload_products(mode):
     db = get_db(mode)
     retailers = db.read(RETAILERS)
 
@@ -44,6 +41,7 @@ def upload_products(mode=DEBUG):
         products = json.loads(raw_product_data)
 
     headers = get_dev_headers(mode)
+    print headers
 
     for retailer in retailers:
         retailer_products = copy.deepcopy([product for product in products if product[RETAILER_NAME] == retailer[NAME]])
@@ -66,9 +64,10 @@ def upload_products(mode=DEBUG):
 
 
 if __name__ == '__main__':
-    mode = DEBUG
+    mode = EVAL
     db = get_db(mode)
     db.delete(RETAILERS)
+    retailer = db.read(RETAILERS)
     db.delete(PRODUCTS)
     upload_retailers(mode)
     upload_products(mode)

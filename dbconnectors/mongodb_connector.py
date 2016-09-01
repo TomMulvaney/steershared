@@ -152,29 +152,3 @@ class MongoConnector:
                     print e
                     raise e
             return ids
-
-
-"""
-# This is for backwards compatibility from before connectors were objects
-_default_connector = MongoConnector(app.config[DEFAULT_MODE])
-
-
-def create(collection_id, docs):
-    return _default_connector.create(collection_id, docs)
-
-
-def read(collection_id, docs):
-    return _default_connector.read(collection_id, docs)
-
-
-def update(collection_id, docs):
-    return _default_connector.update(collection_id, docs)
-
-
-def replace(collection_id, docs):
-    return _default_connector.replace(collection_id, docs)
-
-
-def delete(collection_id, docs):
-    return _default_connector.delete(collection_id, docs)
-"""
