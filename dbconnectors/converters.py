@@ -5,6 +5,15 @@ from FlaskWebProject.steershared.shared_consts import *
 import re
 
 
+def attr_to_str(collection_id, headers, attr):
+    db = get_db(headers)
+    docs = db.read(collection_id)
+    for doc in docs:
+        if attr in doc.keys():
+            doc[attr] = str(doc[attr])
+    db.update(collection_id, docs)
+
+
 def str_to_float(mode, collection_id, attr):
     db = get_db(mode)
     docs = db.read(collection_id)
@@ -51,4 +60,4 @@ def str_to_float(mode, collection_id, attr):
 
 
 if __name__ == '__main__':
-    str_to_float(app.config[DEFAULT_MODE], PRODUCTS, PRICE)
+    attr_to_str(CONSUMERS, DEBUG, 'date')
