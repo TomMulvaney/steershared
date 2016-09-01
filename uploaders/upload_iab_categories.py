@@ -6,6 +6,8 @@ from FlaskWebProject.steershared.shared_consts import *
 
 
 def upload(mode):
+    headers = upload_helpers.get_dev_headers(mode)
+    crud_safety.delete(IAB_CATEGORIES, headers, {})
     # Savvas: name of the file used to add the categories in the DB
     filename = "categories.csv"
     # Savvas: category IDs
@@ -36,7 +38,7 @@ def upload(mode):
                 categories.append({CATEGORY_CODE: category_code, NAME: category_name,
                                    PARENT_CATEGORY_CODE: parent_code, PARENT_NAME: current_parent_name})
     print categories
-    headers = upload_helpers.get_dev_headers(mode)
+
     crud_safety.create(IAB_CATEGORIES, headers, categories)
     categories = crud_safety.read(IAB_CATEGORIES, headers, None)
 
@@ -58,3 +60,4 @@ def upload(mode):
 
 if __name__ == '__main__':
     upload(EVAL)
+    upload(DEBUG)
