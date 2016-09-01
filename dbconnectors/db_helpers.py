@@ -1,6 +1,5 @@
 from FlaskWebProject import app
-from FlaskWebProject.steershared.shared_consts import ID, DB_ACCESS_MODULE, MODE_HEADER_KEY, DEFAULT_MODE, \
-    DB_HEADER_KEY, DB_PACKAGE_PATH
+from FlaskWebProject.steershared.shared_consts import *
 import importlib
 
 
@@ -49,6 +48,7 @@ def add_ids(docs, ids):
 _dbs = {}
 
 if __name__ == '__main__':
-    mod = importlib.import_module('mongodb_connector')
-    print type(mod)
-    print mod
+    db = get_db(EVAL)
+    foo = {'IAB_CATEGORY_CODE': IAB_CATEGORY_CODE}
+    print type(foo)
+    rename_attrs(PRODUCTS, foo, db)
