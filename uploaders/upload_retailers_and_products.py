@@ -22,14 +22,16 @@ def upload_retailers(mode=DEBUG):
 
     headers = get_dev_headers(mode)
 
-    for retailer in retailers:
+    for retailer in list(retailers):
         retailer_products = copy.deepcopy([product for product in products if product[RETAILER_NAME] == retailer[NAME]])
-        if retailer_products:
-            ids = crud_safety.create_retailers(RETAILERS, headers, [retailer])
-        else:
-            print 'WARNING: RETAILER HAS NO PRODUCTS'
-            print retailer
-            print retailer_products
+        if not retailer_products:
+            retailers.remove(retailer)
+
+    ids = crud_safety.create(RETAILERS, headers, retailers)
+    print ids
+    retailers = db.read(RETAILERS)
+    print retailers
+    print ''
 
 
 def upload_products(mode=DEBUG):
@@ -53,7 +55,7 @@ def upload_products(mode=DEBUG):
             for product in retailer_products:
                 product[RETAILER_ID] = retailer[ID]
                 product[IS_FILE_UPLOAD] = True
-                del product[RETAILER_NAME]
+                product[RETAILER_NAME]
             try:
                 ids = crud_safety.create_products(PRODUCTS, headers, retailer_products)
             except Exception as e:
