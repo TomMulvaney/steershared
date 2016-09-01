@@ -26,6 +26,7 @@ TWITTER_SECRET = 'TWITTER_SECRET'
 
 # Machine Learning
 CATEGORY_TYPES = 'category_types'
+USE_RETAILER_SENTIMENT = 'use_retailer_sentiment'
 
 # Database
 DB_ACCESS_MODULE = 'DB_ACCESS_MODULE'
@@ -242,8 +243,6 @@ CONTAINER = 'container'
 
 # Default column name when converting pd.Series to pd.DataFrame
 SERIES_COLUMN = 'VALUES'
-
-
 
 # FACEBOOK
 FB_API_URL = 'https://graph.facebook.com/v2.5/me'
