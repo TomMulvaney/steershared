@@ -24,7 +24,8 @@ def get_client():
 
 
 def get_db_link():
-    return 'dbs/{0}_{1}'.format(app.config[DB_ID], mode)
+    return 'dbs/{0}'.format(app.config[DB_ID])
+    # return 'dbs/{0}_{1}'.format(app.config[DB_ID], mode)
 
 
 def get_collection_link(id_):

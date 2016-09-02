@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from FlaskWebProject import app
 from db_helpers import get_db
 from FlaskWebProject.steershared.shared_consts import *
 import re

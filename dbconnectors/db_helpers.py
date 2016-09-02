@@ -5,7 +5,7 @@ import importlib
 
 def rename_attrs(collection_id, attrs, db=None):
     if not db:
-        db = get_db()
+        db = get_db(app.config[DB_ACCESS_MODULE])
     docs = db.read(collection_id)
     for doc in docs:
         for old_attr, new_attr in attrs.iteritems():
@@ -48,7 +48,8 @@ def add_ids(docs, ids):
 _dbs = {}
 
 if __name__ == '__main__':
-    db = get_db(EVAL)
-    foo = {'IAB_CATEGORY_CODE': IAB_CATEGORY_CODE}
-    print type(foo)
-    rename_attrs(PRODUCTS, foo, db)
+    db_config = {DB_ACCESS_MODULE: 'mongodb_connector', MODE_HEADER_KEY: DEBUG}
+    db_ = get_db(EVAL)
+    mode_ = {'IAB_CATEGORY_CODE': IAB_CATEGORY_CODE}
+    print type(mode_)
+    rename_attrs(PRODUCTS, mode_, db_)

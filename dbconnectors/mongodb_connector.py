@@ -1,5 +1,5 @@
 from FlaskWebProject import app
-from FlaskWebProject.steershared.shared_consts import ID, DEFAULT_MODE, MONGO_DB, DB_ID
+from FlaskWebProject.steershared.shared_consts import ID, MONGO_DB, DB_ID
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from copy import deepcopy
@@ -73,7 +73,7 @@ class MongoConnector:
 
     @deco_retry
     def read(self, collection_id, query_dicts=None):
-        # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+        # Machine Learning may call this function directly and pass a dictionary, so ensure it's wrapped in a list
         if type(query_dicts) is dict:
             query_dicts = [query_dicts]
         try:
@@ -96,7 +96,7 @@ class MongoConnector:
 
     @deco_retry
     def update(self, collection_id, updated_docs):
-        # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+        # Machine Learning may call this function directly and pass a dictionary, so ensure it's wrapped in a list
         if type(updated_docs) is dict:
             updated_docs = [updated_docs]
 
@@ -107,7 +107,7 @@ class MongoConnector:
             try:
                 id_ = updated_doc[ID]
                 updated_doc = {'$set': updated_doc}
-                result = self._db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
+                self._db[collection_id].update_one({_mongo_id_key: ObjectId(id_)}, updated_doc)
                 updated_ids.append(id_)
             except Exception as e:
                 print type(e)
@@ -117,7 +117,7 @@ class MongoConnector:
 
     @deco_retry
     def replace(self, collection_id, replace_docs):
-        # Machine Learning may call this function directly and pass a dictionary, so make sure that it's wrapped in a list
+        # Machine Learning may call this function directly and pass a dictionary, so ensure it's wrapped in a list
         if type(replace_docs) is dict:
             replace_docs = [replace_docs]
 
@@ -127,7 +127,7 @@ class MongoConnector:
         for replace_doc in replace_docs:
             try:
                 id_ = replace_doc[ID]
-                result = self._db[collection_id].replace_one({_mongo_id_key: ObjectId(id_)}, replace_doc)
+                self._db[collection_id].replace_one({_mongo_id_key: ObjectId(id_)}, replace_doc)
                 replace_ids.append(id_)
             except Exception as e:
                 print type(e)
