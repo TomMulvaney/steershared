@@ -27,6 +27,9 @@ TWITTER_SECRET = 'TWITTER_SECRET'
 # Machine Learning
 CATEGORY_TYPES = 'category_types'
 USE_RETAILER_SENTIMENT = 'use_retailer_sentiment'
+USE_KFOLD = 'use_kfold'
+IAB = 'iab'
+KMEANS = 'kmeans'
 
 # Database
 DB_ACCESS_MODULE = 'DB_ACCESS_MODULE'
