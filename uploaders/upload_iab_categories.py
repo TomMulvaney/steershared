@@ -4,6 +4,8 @@ import upload_helpers
 from FlaskWebProject.steerapi import crud_safety
 from FlaskWebProject.steershared.shared_consts import *
 
+from FlaskWebProject.steershared.dbconnectors.db_helpers import get_db
+
 
 def upload(mode):
     headers = upload_helpers.get_dev_headers(mode)
@@ -59,5 +61,12 @@ def upload(mode):
     crud_safety.update(IAB_CATEGORIES, headers, categories)
 
 if __name__ == '__main__':
-    upload(EVAL)
-    upload(DEBUG)
+    mode_ = EVAL
+    #upload(mode_)
+    headers_ = upload_helpers.get_dev_headers(mode_)
+    print 'CATS'
+    print crud_safety.read(IAB_CATEGORIES, headers_, None)
+    db_ = get_db(mode_)
+    print db_.read(IAB_CATEGORIES)
+    print crud_safety.read_bypass(IAB_CATEGORIES, mode_)
+    print ''
