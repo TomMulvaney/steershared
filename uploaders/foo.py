@@ -3,10 +3,10 @@
 import json
 import re
 
-from FlaskWebProject.steershared.dbconnectors.db_helpers import import_db_connector_module
+from FlaskWebProject.steershared.dbconnectors.db_helpers import get_db
 from FlaskWebProject.steershared.shared_consts import *
 
-db = import_db_connector_module()
+db = get_db(DEBUG)
 
 
 def modify_consumers():
@@ -114,8 +114,18 @@ def modify_retailers_file():
 
 
 if __name__ == '__main__':
-    coll = 'foo'
-    #ids = db.create(coll, {'hello': 0, 'world': 1})
-    #print db.read(coll)
-    #db.delete(coll, ids)
-    db.delete(coll, '57bf287e5c92eb408816d5ae')
+
+    consumer_id_ = '57ccbea15c92eb9dde097470'
+    """
+    docs=[{"item_id": "57c85b825c92eb5aeabb6d8a", "sentiment": 0.5, "consumer_id": consumer_id_,
+           "is_prediction": True, NAME: '0.5', RETAILER_ID: '57c85b7a5c92eb5aeabb6d58', ITEM_TYPE: PRODUCTS},
+          {"item_id": "57c85b825c92eb5aeabb6d8b","sentiment": 0.6, "consumer_id": consumer_id_,
+           "is_prediction": True, NAME: '0.6', RETAILER_ID: '57c85b7a5c92eb5aeabb6d58', ITEM_TYPE: PRODUCTS},
+          {"item_id": "57c85b825c92eb5aeabb6d8c", "sentiment": 0.8, "consumer_id": consumer_id_,
+           "is_prediction": True, NAME: '0.8', RETAILER_ID: '57c85b7a5c92eb5aeabb6d58', ITEM_TYPE: PRODUCTS},
+          {"item_id": "57c85b825c92eb5aeabb6d8d", "sentiment": 0.7, "consumer_id": consumer_id_,
+           "is_prediction": True, NAME: '0.7', RETAILER_ID: '57c85b7a5c92eb5aeabb6d58', ITEM_TYPE: PRODUCTS}]
+
+    db.create(RATINGS, docs)
+    """
+    print db.read(RATINGS, {CONSUMER_ID: consumer_id_})
