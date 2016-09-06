@@ -20,8 +20,10 @@ def import_db_connector_module(module_name=app.config[DB_ACCESS_MODULE]):
 
 def get_db(headers):
     try:
-        mode = headers[MODE_HEADER_KEY]
+        mode = str(headers[MODE_HEADER_KEY])
     except (KeyError, TypeError):
+        if type(headers) is unicode:
+            headers = str(headers)
         # Check if it's a str because we used to have a mode (str) argument instead of headers
         mode = headers if type(headers) is str else app.config[DEFAULT_MODE]
 
