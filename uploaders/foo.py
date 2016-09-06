@@ -128,4 +128,8 @@ if __name__ == '__main__':
 
     db.create(RATINGS, docs)
     """
-    print db.read(RATINGS, {CONSUMER_ID: consumer_id_})
+    docs = db.read(RATINGS, {CONSUMER_ID: consumer_id_})
+    for doc in docs:
+        doc[PRICE] = 5.0
+    ids = [doc[ID] for doc in docs]
+    db.delete(RATINGS, ids)
