@@ -3,15 +3,39 @@ from FlaskWebProject.steershared.shared_consts import *
 import importlib
 
 
-def rename_attrs(collection_id, attrs, db=None):
-    if not db:
-        db = get_db(app.config[DB_ACCESS_MODULE])
+def rename_attrs(collection_id, attrs, mode):
+    db = get_db(mode)
     docs = db.read(collection_id)
     for doc in docs:
         for old_attr, new_attr in attrs.iteritems():
             doc[new_attr] = doc[old_attr]
             del doc[old_attr]
     db.replace(collection_id, docs)
+
+
+def add_attrs(collection_id, attrs, mode):
+    db = get_db(mode)
+    docs = db.read(collection_id)
+    for doc in docs:
+        for attr, val in attrs.iteritems():
+            if attr not in doc.keys():
+                doc[attr] = val
+    print docs
+    db.update(collection_id, docs)
+
+
+def relink_ids(referencer_coll, link_attr, id_attr, referencee_coll, referencee_attr, mode):
+    db = get_db(mode)
+    referencers = db.read(referencer_coll, {RETAILER_NAME: 'The Veg Box Cafe'})
+    for referencer in referencers:
+        try:
+            referencees = db.read(referencee_coll, {referencee_attr: referencer[link_attr]})
+            for referencee in referencees:
+                referencer[id_attr] = referencee[ID]
+        except KeyError:
+            pass
+    print referencers
+    db.update(referencer_coll, referencers)
 
 
 def import_db_connector_module(module_name=app.config[DB_ACCESS_MODULE]):
@@ -50,8 +74,4 @@ def add_ids(docs, ids):
 _dbs = {}
 
 if __name__ == '__main__':
-    db_config = {DB_ACCESS_MODULE: 'mongodb_connector', MODE_HEADER_KEY: DEBUG}
-    db_ = get_db(EVAL)
-    mode_ = {'IAB_CATEGORY_CODE': IAB_CATEGORY_CODE}
-    print type(mode_)
-    rename_attrs(PRODUCTS, mode_, db_)
+    relink_ids(PRODUCTS, RETAILER_NAME, RETAILER_ID, RETAILERS, NAME, DEBUG)
