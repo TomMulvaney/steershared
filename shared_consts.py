@@ -308,3 +308,4 @@ CLUSTER_COUNT = 4
 
 FOO = 'foo'
 BAR = 'bar'
+BAZ = 'baz'
