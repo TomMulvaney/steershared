@@ -5,7 +5,14 @@ import pydocumentdb.document_client as document_client
 
 
 def gen_connector(mode):
+    """Generates DocumentDB connector"""
     return DocdbConnector(mode)
+
+
+def gen_client(self):
+    """Generates db client"""
+    return document_client.DocumentClient(app.config[DOCUMENTDB_HOST],
+                                          {'masterKey': app.config[DOCUMENTDB_MASTER_KEY]})
 
 
 class IDisposable:
@@ -27,12 +34,6 @@ class DocdbConnector:
     """Connector for DocumentDB database"""
     def __init__(self, mode):
         self._mode = mode
-
-    @staticmethod
-    def gen_client(self):
-        """Generates db client"""
-        return document_client.DocumentClient(app.config[DOCUMENTDB_HOST],
-                                              {'masterKey': app.config[DOCUMENTDB_MASTER_KEY]})
 
     @staticmethod
     def get_collection_link(self, id_):
